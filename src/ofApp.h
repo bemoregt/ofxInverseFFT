@@ -26,6 +26,7 @@ class ofApp : public ofBaseApp{
 		
 private:
     ofImage before;
+    ofImage spectrum;
     ofImage after;
     
     int kernelSize;

@@ -21,7 +21,7 @@ void ofApp::update(){
     float ratio = 256.0 / img2.cols;
     cv::resize(img2, img3, cv::Size(img2.cols*ratio, img2.rows*ratio));
     
-    // 2d DFT
+    // 2d fft
     cv::Mat planes[] = {cv::Mat_<float>(img3), cv::Mat::zeros(img3.size(), CV_32F)};
     cv::Mat complexImg;
     cv::merge(planes, 2, complexImg);
@@ -30,13 +30,22 @@ void ofApp::update(){
     cv::split(complexImg, planes);
     
     cv::Mat mag, logmag;
-    cv::Mat mag1;
-    
+    cv::Mat mag1, mag2, mag3;
+    // log spectrum
     cv::magnitude(planes[0], planes[1], mag);
     cv::log(mag, logmag);
-    
+    // ifft
+    cv::merge(planes, 2, complexImg);
+    cv::dft(complexImg, complexImg, cv::DFT_INVERSE | cv::DFT_SCALE);
+    cv::split(complexImg, planes);
+    cv::magnitude(planes[0], planes[1], mag2);
+    // update spectrum
     cv::normalize(logmag, mag1, 255, 0, cv::NORM_MINMAX, CV_8U);
-    toOf(mag1, after);
+    toOf(mag1, spectrum);
+    spectrum.update();
+    // update inverse spectrum
+    cv::normalize(mag2, mag3, 255, 0, cv::NORM_MINMAX, CV_8U);
+    toOf(mag3, after);
     after.update();
 }
 
@@ -45,7 +54,8 @@ void ofApp::draw(){
 
     ofSetColor(255,255,255);
     before.draw(0, 0, 512, 512);
-    after.draw(512, 0, 512, 512);
+    spectrum.draw(512, 0, 512, 512);
+    after.draw(1024, 0, 512, 512);
 }
 
 //--------------------------------------------------------------
