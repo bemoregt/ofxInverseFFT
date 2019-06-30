@@ -1,7 +1,7 @@
 # ofxInverseFFT
 inverse 2d FFT using Openframeworks C++ in MacOSX
 
-![ifft example]( https://github.com/bemoregt/ofx2DFFT/blob/master/https://github.com/bemoregt/ofxInverseFFT/blob/master/inverse.png "ifft")
+![ifft example]( https://github.com/bemoregt/ofxInverseFFT/blob/master/inverse.png "ifft")
 
 ### Dependency
 - OpenFrameworks 0.10.1
